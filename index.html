@@ -6,16 +6,22 @@
   <!--[if lt IE 9]>
   <script src="http://cdn.static.runoob.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
   <![endif]-->
+  <style>
+	  body{text-align:center}
+	 .div{ margin:0 auto; width:400px; height:100px; border:1px solid #F00}
+ </style> 
 </head>
  
 <body>
- 
-<h1>I Love You</h1>
- <canvas id="myCanvas" width="960" height="1280" style="border:1px solid #c3c3c3"></canvas> <p>  </p>
- <!-- <img id="scream" src="6.jpg" alt="The Scream" width="220" height="277"> -->
-<article>
+ <div>
+ 	<h1 style="color: #dedfe0">I Love You</h1>
+ 	<canvas id="myCanvas" width="960" height="1280" style="border:1px solid #c3c3c3"></canvas> <p>  </p>
+ 	<!-- <img id="scream" src="6.jpg" alt="The Scream" width="220" height="277"> -->
+	<article>
 
-</article>
+	</article>
+ </div>
+
  <script>
  	var c = document.getElementById("myCanvas");
  	var ctx = c.getContext("2d");
@@ -24,6 +30,7 @@
  	img.onload = function() {
  		ctx.drawImage(img,10,10);
  	}
+
  </script>
 </body>
 </html>
