@@ -1,0 +1,29 @@
+<!<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>渲染 HTML5</title>
+  <!--[if lt IE 9]>
+  <script src="http://cdn.static.runoob.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <![endif]-->
+</head>
+ 
+<body>
+ 
+<h1>我的第一篇文章</h1>
+ <canvas id="myCanvas" width="250" height="300" style="border:1px solid #c3c3c3"></canvas> <p>  </p>
+ <img id="scream" src="6.jpg" alt="The Scream" width="220" height="277">
+<article>
+王斌你这个小SB！！！
+</article>
+ <script>
+ 	var c = document.getElementById("myCanvas");
+ 	var ctx = c.getContext("2d");
+ 	var img = document.getElementById("scream");
+
+ 	img.onload = function() {
+ 		ctx.drawImage(img,10,10);
+ 	}
+ </script>
+</body>
+</html>
