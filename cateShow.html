@@ -55,16 +55,18 @@
 			for (var i = 0; i < obj.length; i++) {
 				var cate = obj[i];
 				ulList.innerHTML = ulList.innerHTML + "\
-				<div id='cateCell'>\
+				<a href='textHtml.html'><div id='cateCell'>\
 				<div id='imgeDiv'><img src='https://meckeeper-test.oss-cn-shanghai.aliyuncs.com/"+cate.car_icon+"'>\
 				</div><b><p id='cateName'>"+cate.brand_name+cate.name+cate.cate_name+"</p></b>\
 				<p id='details'>"+getLocalTime(cate.date)+"年 | "+cate.use_time+"小时"+" | "+cate.address+"</p>\
-				<p id='price'>"+cate.price+"万"+"</p></div>";
+				<p id='price'>"+cate.price+"万"+"</p></div></a>";
 			}
 		}
   	</script>
 
   	<style type="text/css">
+  		a{ text-decoration: none;}
+  		a:hover{txt-decoration:underline;}
   		p{	
   			margin: 0px;
   			padding: 0px;
