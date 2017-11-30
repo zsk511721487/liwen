@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>车辆列表</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width,initial-scale=1 user-scalable=0"/>
+  	<script type="text/javascript">
+
+  		window.onload=function(){
+  			loadXMLDoc('https://testadmin.meckeeper.com/business/v6/sell');
+  		}
+
+  		var xmlhttp;
+  		function loadXMLDoc(url){
+  			xmlhttp = null;
+  			if (window.XMLHttpRequest) {
+  				xmlhttp = new XMLHttpRequest();
+
+  			}else if (window.ActiveXObject) {
+  				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+  			}
+
+  			if (xmlhttp != null) {
+  				xmlhttp.onreadystatechange=state_Change;
+  				xmlhttp.open("POST",url,true);
+  				xmlhttp.send(null);
+  			}else
+			  {
+			  alert("Your browser does not support XMLHTTP.");
+			  }
+  		}
+
+  		function state_Change()
+		{
+		if (xmlhttp.readyState==4)
+		  {// 4 = "loaded"
+		  if (xmlhttp.status==200)
+		    {// 200 = OK
+    			var obj =  eval('('+xmlhttp.responseText+')');
+    			create(obj.data.thisList);
+		    }
+		  else
+		    {
+		    alert("Problem retrieving XML data");
+		    }
+		  }
+		}
+
+		function getLocalTime(nS) {  
+            return new Date(nS*1000).getFullYear();  
+        } 
+
+		function create(obj){
+			var ulList = document.getElementById('showCate');
+			for (var i = 0; i < obj.length; i++) {
+				var cate = obj[i];
+				ulList.innerHTML = ulList.innerHTML + "\
+				<div id='cateCell'>\
+				<div id='imgeDiv'><img src='https://meckeeper-test.oss-cn-shanghai.aliyuncs.com/"+cate.car_icon+"'>\
+				</div><b><p id='cateName'>"+cate.brand_name+cate.name+cate.cate_name+"</p></b>\
+				<p id='details'>"+getLocalTime(cate.date)+"年 | "+cate.use_time+"小时"+" | "+cate.address+"</p>\
+				<p id='price'>"+cate.price+"万"+"</p></div>";
+			}
+		}
+  	</script>
+
+  	<style type="text/css">
+  		p{	
+  			margin: 0px;
+  			padding: 0px;
+  		}
+  		body{
+  			margin: 0px;
+  			padding: 0px;
+  			border:0px;
+  		}
+  		#showCate{
+  			/*position: relative;*/
+  			float: left;
+  			width: 100%;
+  			height: auto;
+  			margin: 0;
+  			padding: 0;
+  			background-color: #f3f3f3;
+  		}
+
+  		#cateCell{
+  			background-color: white;
+  			height: 100px;
+  			width: 100%;
+  			border-bottom: 1px solid #dedfe0;
+  			
+
+  		}
+
+  		#imgeDiv {
+  			margin: 10px 10px 10px 15px;
+  			width: 120px;
+  			height: 80px;
+  			float: left;
+  			overflow:hidden;
+  		}
+
+  		#imgeDiv img{
+  			min-width: 100px;
+  			max-width: 120px;
+/*  			position:static;
+  			left: 0;
+  			top: 0;*/
+  			transform: translate(0,-25%);
+  		}
+
+  		/*一行显示，多余省略号表示。修改字体颜色和大小*/
+  		#cateName {
+  			padding-top: 10px;
+  			padding-left: 10px;
+  			overflow: hidden;
+  			white-space: nowrap;
+  			text-overflow: ellipsis;
+  			color: #333333;
+  			font-size: 16px;
+  		}
+
+  		#details{
+  			padding-left: 10px;
+  			overflow: hidden;
+  			white-space: nowrap;
+  			text-overflow: ellipsis;
+  			color: #999999;
+  			font-size: 14px;
+  		}
+
+  		#price{
+  			/*padding-left: 10px;
+  			overflow: hidden;
+  			white-space: nowrap;
+  			text-overflow: ellipsis;
+  			color: #999999;
+  			font-size: 14px;*/
+  			overflow: hidden;
+  			padding-top: 20px;
+  			padding-bottom: 10px;
+  			padding-left: 10px;
+  			font-size: 16px;
+  			color: rgb(72,168,29);
+  			
+  		}
+  	</style>
+</head>
+<body>
+<div id="showCate">
+</div>
+<!-- <button onclick="loadXMLDoc('https://testadmin.meckeeper.com/business/v6/sell')">Get XML</button> -->
+</body>
+</html>
