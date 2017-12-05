@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>详情</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1 user-scalable=0"/>
+</head>
+<style type="text/css">
+	body{
+		margin: 0;
+		padding: 0;
+		background-color: #f3f3f3;
+	}
+
+	p{
+		margin: 0px;
+		padding: 0px;
+	}
+
+	#nav{
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		background-color: #36373F;
+		width: 100%;
+		height: 64px;
+		text-align: center;
+		
+	}
+
+	#nav p{
+		line-height: 64px;
+		color: white;
+		font-size: 16px;
+		padding: 0px;
+		margin: 0px;
+	}
+
+	#nav img{
+		position: absolute;
+		left: 15px;
+		top: 20px;
+		width: 30px;
+		height: 30px;
+	}
+
+	#list{
+		margin: 64px auto auto auto;
+		width: 100%;
+		height: auto;
+		float: left;
+	}
+
+	#topView{
+		width: 100%;
+		height: 100px;
+		background-color: white;
+		padding: 15px;
+		position: relative;
+		box-sizing: border-box;
+	}
+
+	#topView #cateName{
+		font-size: 20px;
+	}
+
+	#price{
+		position: absolute;
+		bottom: 10px;
+		left: 15px;
+		font-size: 20px;
+		color: #55A32A;
+		float: left;
+	}
+
+	#ctime{
+		position: absolute;
+		bottom: 10px;
+		/*right: 0px;
+		left: auto;
+		top: auto;*/
+		font-size: 14px;
+		color: #666666;
+		right: 15px;
+		/*margin-right: 0px;*/
+	}
+
+	#detailsView{
+		position: relative;
+		margin-top: 5px;
+		height: 59px;
+		width: 100%;
+		background-color: white;
+		box-sizing: border-box;
+		text-align: center;
+		display: flex;
+		flex-direction: row;
+		/*float: left;*/
+	}
+
+	#date {
+		flex: 1;
+		position: absolute;
+		bottom: 5px;
+		left: 15px;
+		font-size: 12px;
+		color: #999999;
+	}
+
+	#useTime {
+		flex: 1;
+		position: absolute;
+		bottom: 5px;
+		float: left;
+		font-size: 12px;
+		color: #999999;
+	}
+
+	#area {
+		flex: 1;
+		position: absolute;
+		right: 15px;
+		bottom: 5px;
+		float: left;
+		font-size: 12px;
+		color: #999999;
+		float: right;
+	}
+
+	#detailsItem {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	.baseP {
+		flex: 1;
+		color: #333333;
+		font-size: 16px;
+		font-weight: 900;
+		padding-top: 5px;
+	}
+
+	#descrView {
+		width: 100%;
+		height: 120px;
+		background-color: white;
+		position: relative;
+		margin-top: 5px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	#infomationView {
+		width: 100%;
+		height: 200px;
+		background-color: white;
+		position: relative;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
+	.infomation{
+		color: #999999;
+		font-size: 14px;
+		margin-left: 15px;
+		margin-top: 5px;
+	}
+
+	#imageView {
+		width: 100%;
+		height: 200px;
+		overflow:hidden;
+	}
+
+	#imageView img{
+		min-width: 100%;
+		max-width: 100%;
+		transform: translate(0,-25%);
+	}
+
+</style>
+
+<script type="text/javascript">
+	window.onload=function(){
+			var sellId = getParams("cateId");
+  			getCateDetails(sellId);
+  		}
+
+	function getParams(keys){
+		var reg = new RegExp("(^|&)" + keys + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) {
+			return unescape(r[2])
+		}
+		return null;
+	}
+
+	var xmlhttp;
+	function getCateDetails(sell_id){
+		xmlhttp = null;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		}else if (window.ActiveXObject) {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+
+		if (xmlhttp != null) {
+			xmlhttp.onreadystatechange=state_Change;
+			xmlhttp.open("GET","https://testadmin.meckeeper.com/business/v6/sell/detail?jsondata={\"sell_id\":"+sell_id+"}",true);
+			xmlhttp.send(null);
+		}else{
+			alert("Your browser does not support XMLHTTP.");
+		}
+	}	
+
+	function state_Change(){
+		if (xmlhttp.readyState==4) {
+			if (xmlhttp.status==200) {
+				var obj = eval('('+xmlhttp.responseText+')');
+				createInterface(obj.data);
+			}
+		}
+	}
+
+	function getLocalTime(nS) {  
+		var date = new Date(nS*1000)
+            return date.getMonth()+"-"+date.getDate();  
+        } 
+
+	function createInterface(data){
+			var superDiv = document.getElementById("list");
+
+			var imgeView = document.createElement("div");
+			imgeView.setAttribute("id","imageView");
+			imgeView.innerHTML += "<img src='https://meckeeper-test.oss-cn-shanghai.aliyuncs.com/"+data.images[0].path+"'>";
+			superDiv.appendChild(imgeView);
+			//详情顶部数据
+			var topView = document.createElement('div');
+			topView.setAttribute("id","topView");
+			topView.innerHTML += "<b><p id='cateName'>"+data.brand_name+data.name+data.cate_name+"</p></b>";
+			topView.innerHTML += "<b><p id='price'>"+data.price+"万</p></b>";
+			topView.innerHTML += "<b><p id='ctime'>"+getLocalTime(data.ctime)+"更新</p></b>";
+			superDiv.appendChild(topView);
+
+			var detailsView = document.createElement("div");
+			detailsView.setAttribute("id","detailsView");
+			detailsView.innerHTML += "<div id='detailsItem'><p class='baseP'>"+getLocalTime(data.ctime)+"年出厂</p><p id='date'>出厂年份</p> \
+			</div><div id='detailsItem'><p class='baseP'>"+data.use_time+"小时</p><p id='useTime'>使用时长</p></div>\
+			 <div id='detailsItem'><p class='baseP' style='text-overflow: ellipsis;white-space: nowrap;overflow: hidden;padding-right:10px;'>"+data.address+"</p><p id='area'>设备位置</p></div>";
+			superDiv.appendChild(detailsView);
+
+			var descrView = document.createElement("div");
+			descrView.setAttribute("id","descrView");
+			descrView.innerHTML += "<div style='flex:0.5;align-items:center;display:flex;border-bottom:0.5px solid #f3f3f3;'>\
+				<div style='width:5px;height:20px;background-color:#61BA31;margin-right:10px;'></div><p style='color:#999999;font-size16px;'>车主描述</p></div>\
+									<div style='flex:1;'><p style='width:100%;height:100%;display:flex;align-items:center;margin-left:15px;color:#333333;'>"+data.descr+"</p></div>";
+			superDiv.appendChild(descrView);
+
+			var infomationView = document.createElement("div");
+			infomationView.setAttribute("id","infomationView");
+			infomationView.innerHTML += "<div style='width:100%;height:40px;display:flex;align-items:center;flex-direction:row;border-bottom:0.5px solid #f3f3f3;'><div style='width:5px;height:20px;background-color:#61BA31;margin-right:10px;'></div><p style='color:#999999;font-size16px;'>基本信息</p></div><div style='background-color:red:width:100%;height:160px;display:flex;flex-direction:column;'>\
+				<div class='infomation' style='flex:1'>品牌型号    "+data.brand_name+data.name+"</div>\
+				<div class='infomation' style='flex:1'>设备类型    "+data.cate_name+"</div>\
+				<div class='infomation' style='flex:1'>最大吨位    "+data.visit+"</div>\
+				<div class='infomation' style='flex:1'>发票    无</div>\
+				<div class='infomation' style='flex:1'>合格证   无</div>\
+				<div class='infomation' style='flex:1'>联系人    "+data.linkman+"</div>\</div>";
+			superDiv.appendChild(infomationView);
+
+
+	}
+
+</script>
+<body>
+
+<div id="list">
+
+</div>
+<div id="nav">
+	<p>详情</p>
+	<a href="#" onclick="javascript:history.back(1)"><img src="back.png"></a>
+</div>
+</body>
+</html>

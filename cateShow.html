@@ -55,7 +55,7 @@
 			for (var i = 0; i < obj.length; i++) {
 				var cate = obj[i];
 				ulList.innerHTML = ulList.innerHTML + "\
-				<a href='textHtml.html'><div id='cateCell'>\
+				<a href='cateDetails.html?cateId="+cate.sell_id+"'><div id='cateCell'>\
 				<div id='imgeDiv'><img src='https://meckeeper-test.oss-cn-shanghai.aliyuncs.com/"+cate.car_icon+"'>\
 				</div><b><p id='cateName'>"+cate.brand_name+cate.name+cate.cate_name+"</p></b>\
 				<p id='details'>"+getLocalTime(cate.date)+"年 | "+cate.use_time+"小时"+" | "+cate.address+"</p>\
